@@ -1,0 +1,29 @@
+serial:
+  port: /dev/ttyUSB0  # or COM3 on Windows
+  baudrate: 115200
+  timeout: 1
+
+motor:
+  left:
+    pulses_per_rotation: 44.0
+    max_speed: 255
+  right:
+    pulses_per_rotation: 45.0
+    max_speed: 255
+
+pid:
+  kp: 0.15
+  ki: 0.7
+  kd: 0.001
+  max_integral: 50
+
+visualization:
+  update_interval: 100  # ms
+  history_length: 1000  # data points
+  theme: dark
+
+logging:
+  level: INFO
+  file: logs/motor_control.log
+  max_size: 10485760  # 10MB
+  backup_count: 5
