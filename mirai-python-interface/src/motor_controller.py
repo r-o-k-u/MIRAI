@@ -15,7 +15,8 @@ class MotorController:
             'emergency_stop': False,
             'braking': False,
             'ros_connected': False,
-            'last_heartbeat': None
+            'last_heartbeat': None,
+            'serial_connected': False
         }
         self.data_history = {
             'timestamp': [],
@@ -48,6 +49,10 @@ class MotorController:
             data = self.serial_interface.get_all_data()
             for line in data:
                 self._process_data(line)
+            
+            # Update serial connection status
+            self.system_status['serial_connected'] = self.serial_interface.is_connected()
+            
             time.sleep(0.01)
     
     def _process_data(self, data):
@@ -131,6 +136,18 @@ class MotorController:
     def activate_hard_brake(self):
         self.serial_interface.send_command('HARDBRAKE')
         self.system_status['braking'] = True
+    
+    def print_diagnostics(self):
+        """Print diagnostic information to console"""
+        status = self.get_status()
+        print("\n=== MIRAI Motor Controller Diagnostics ===")
+        print(f"Serial Connected: {status['system']['serial_connected']}")
+        print(f"ROS Connected: {status['system']['ros_connected']}")
+        print(f"Emergency Stop: {status['system']['emergency_stop']}")
+        print(f"Braking: {status['system']['braking']}")
+        print(f"Left Motor - Speed: {status['motors']['left']['speed']}, Target: {status['motors']['left']['target']}")
+        print(f"Right Motor - Speed: {status['motors']['right']['speed']}, Target: {status['motors']['right']['target']}")
+        print("==========================================\n")
     
     def get_status(self):
         return {

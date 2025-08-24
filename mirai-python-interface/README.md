@@ -97,3 +97,46 @@ Extend the DataVisualizer class to add additional plots or dashboard elements.
 
 ## Custom Commands
 Add new motor control commands by extending the MotorController class.
+
+
+
+# Finding Arduino COM Port in WSL
+
+## Method 1: Check Windows Device Manager
+Open Windows Device Manager (press Win + X, then select Device Manager)
+
+Look under "Ports (COM & LPT)"
+
+You should see something like "Arduino Mega 2560 (COM3)" or "USB Serial Device (COM4)"
+
+## Method 2: Use WSL Command
+```bash
+# List all serial devices
+ls /dev/ttyS* /dev/ttyUSB* /dev/ttyACM*
+
+# Typically Arduino shows up as:
+# /dev/ttyACM0  (most common in WSL)
+# /dev/ttyUSB0
+# /dev/ttyS0    (rare for Arduino)
+```
+# Method 3: Check Windows from WSL
+``` bash
+# PowerShell command from WSL to check Windows COM ports
+powershell.exe -Command "[System.IO.Ports.SerialPort]::getportnames()"
+
+# Or using wmic
+cmd.exe /c "wmic path Win32_SerialPort get DeviceID, Description"
+```
+# Method 4: Arduino IDE Method
+Open Arduino IDE
+
+Go to Tools > Port
+
+It will show the connected Arduino port (like COM3 or COM4)
+
+# Common WSL Arduino Port Mappings
+Windows COM3 → WSL: /dev/ttyS3
+
+Windows COM4 → WSL: /dev/ttyS4
+
+Some WSL distributions: /dev/ttyACM0
