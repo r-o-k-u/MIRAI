@@ -6,6 +6,7 @@ import pygame.gfxdraw
 from datetime import datetime
 import threading
 import time
+import sys
 
 class DataVisualizer:
     def __init__(self, motor_controller, width=1400, height=900):
@@ -13,11 +14,20 @@ class DataVisualizer:
         self.width = width
         self.height = height
         self.running = False
+        self.initialized = False
+        self.data_available = False
         
-        # Initialize pygame
-        pygame.init()
-        self.screen = pygame.display.set_mode((width, height))
-        pygame.display.set_caption("MIRAI Motor Control Dashboard")
+        # Initialize pygame with error handling
+        try:
+            pygame.init()
+            self.screen = pygame.display.set_mode((width, height))
+            pygame.display.set_caption("MIRAI Motor Control Dashboard")
+            self.initialized = True
+        except pygame.error as e:
+            print(f"Pygame initialization failed: {e}")
+            print("Falling back to CLI mode")
+            self.running = False
+            return
         
         # Initialize matplotlib figures
         self.setup_plots()
@@ -37,7 +47,7 @@ class DataVisualizer:
             'disconnected': (200, 50, 50)
         }
         
-        # Fonts
+        # Fonts with fallbacks
         self.fonts = {
             'title': pygame.font.SysFont('Arial', 36),
             'large': pygame.font.SysFont('Arial', 28),
@@ -52,168 +62,244 @@ class DataVisualizer:
             'button_spacing': 15,
             'status_height': 40
         }
+        
+        self.running = True
     
     def setup_plots(self):
-        # Create matplotlib figures for real-time plotting
-        self.fig, ((self.ax1, self.ax2), (self.ax3, self.ax4)) = plt.subplots(2, 2, figsize=(10, 8))
-        self.canvas = FigureCanvasAgg(self.fig)
-        
-        # Configure plots
-        self.ax1.set_title('Motor Speeds', color='white', fontsize=12)
-        self.ax1.set_ylabel('Speed', color='white')
-        self.ax1.grid(True, alpha=0.3)
-        self.ax1.tick_params(colors='white')
-        self.ax1.set_facecolor((0.1, 0.1, 0.1))
-        
-        self.ax2.set_title('Target vs Actual', color='white', fontsize=12)
-        self.ax2.grid(True, alpha=0.3)
-        self.ax2.tick_params(colors='white')
-        self.ax2.set_facecolor((0.1, 0.1, 0.1))
-        
-        self.ax3.set_title('Pulse Counts', color='white', fontsize=12)
-        self.ax3.set_ylabel('Pulses', color='white')
-        self.ax3.grid(True, alpha=0.3)
-        self.ax3.tick_params(colors='white')
-        self.ax3.set_facecolor((0.1, 0.1, 0.1))
-        
-        self.ax4.set_title('System Status', color='white', fontsize=12)
-        self.ax4.grid(True, alpha=0.3)
-        self.ax4.tick_params(colors='white')
-        self.ax4.set_facecolor((0.1, 0.1, 0.1))
-        
-        # Set dark background for all plots
-        self.fig.patch.set_facecolor((0.15, 0.15, 0.2))
-        plt.tight_layout()
+        try:
+            # Create matplotlib figures for real-time plotting
+            plt.style.use('dark_background')
+            self.fig, ((self.ax1, self.ax2), (self.ax3, self.ax4)) = plt.subplots(2, 2, figsize=(10, 8))
+            self.canvas = FigureCanvasAgg(self.fig)
+            
+            # Configure plots
+            self.ax1.set_title('Motor Speeds', color='white', fontsize=12)
+            self.ax1.set_ylabel('Speed', color='white')
+            self.ax1.grid(True, alpha=0.3)
+            self.ax1.tick_params(colors='white')
+            self.ax1.set_facecolor((0.1, 0.1, 0.1))
+            
+            self.ax2.set_title('Target vs Actual', color='white', fontsize=12)
+            self.ax2.grid(True, alpha=0.3)
+            self.ax2.tick_params(colors='white')
+            self.ax2.set_facecolor((0.1, 0.1, 0.1))
+            
+            self.ax3.set_title('RPM Values', color='white', fontsize=12)
+            self.ax3.set_ylabel('RPM', color='white')
+            self.ax3.grid(True, alpha=0.3)
+            self.ax3.tick_params(colors='white')
+            self.ax3.set_facecolor((0.1, 0.1, 0.1))
+            
+            self.ax4.set_title('System Status', color='white', fontsize=12)
+            self.ax4.grid(True, alpha=0.3)
+            self.ax4.tick_params(colors='white')
+            self.ax4.set_facecolor((0.1, 0.1, 0.1))
+            
+            # Set dark background for all plots
+            self.fig.patch.set_facecolor((0.15, 0.15, 0.2))
+            plt.tight_layout()
+            
+        except Exception as e:
+            print(f"Plot setup failed: {e}")
     
     def start(self):
-        self.running = True
-        self.visualization_thread = threading.Thread(target=self._visualization_loop)
+        if not self.initialized:
+            return
+            
+        self.visualization_thread = threading.Thread(target=self._visualization_loop, daemon=True)
         self.visualization_thread.start()
         print("Data visualizer started")
     
     def stop(self):
         self.running = False
-        if self.visualization_thread:
-            self.visualization_thread.join()
-        pygame.quit()
+        try:
+            pygame.quit()
+        except:
+            pass
         print("Data visualizer stopped")
     
     def _visualization_loop(self):
         clock = pygame.time.Clock()
+        startup_time = time.time()
+        show_loading = True
         
         while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_c:
-                        # Toggle connection (placeholder for actual connection logic)
-                        pass
-            
-            self.update_plots()
-            self.render_dashboard()
-            
-            pygame.display.flip()
-            clock.tick(30)  # 30 FPS
+            try:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            self.running = False
+                
+                # Check if we have data available
+                status = self.motor_controller.get_status()
+                has_data = len(self.motor_controller.get_history()['timestamp']) > 0
+                
+                # Show loading screen for first few seconds or until data arrives
+                if show_loading and (time.time() - startup_time < 3 or not has_data):
+                    self.render_loading_screen(startup_time)
+                else:
+                    show_loading = False
+                    self.data_available = True
+                    self.update_plots()
+                    self.render_dashboard()
+                
+                pygame.display.flip()
+                clock.tick(30)  # 30 FPS
+                
+            except Exception as e:
+                print(f"Visualization error: {e}")
+                time.sleep(0.1)
     
-    def update_plots(self):
-        history = self.motor_controller.get_history()
-        
-        if len(history['timestamp']) > 0:
-            timestamps = history['timestamp'][-100:]  # Show only last 100 points
-            
-            # Update speed plot
-            self.ax1.clear()
-            self.ax1.plot(timestamps, history['left_speed'][-100:], 
-                         label='Left Speed', color='red', linewidth=2)
-            self.ax1.plot(timestamps, history['right_speed'][-100:], 
-                         label='Right Speed', color='green', linewidth=2)
-            self.ax1.set_title('Motor Speeds', color='white', fontsize=12)
-            self.ax1.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
-            self.ax1.grid(True, alpha=0.3)
-            self.ax1.tick_params(colors='white')
-            self.ax1.set_facecolor((0.1, 0.1, 0.1))
-            
-            # Update target vs actual plot
-            self.ax2.clear()
-            self.ax2.plot(timestamps, history['left_target'][-100:], 
-                         label='Left Target', color='red', linestyle='--', linewidth=2)
-            self.ax2.plot(timestamps, history['left_speed'][-100:], 
-                         label='Left Actual', color='red', linewidth=2)
-            self.ax2.plot(timestamps, history['right_target'][-100:], 
-                         label='Right Target', color='green', linestyle='--', linewidth=2)
-            self.ax2.plot(timestamps, history['right_speed'][-100:], 
-                         label='Right Actual', color='green', linewidth=2)
-            self.ax2.set_title('Target vs Actual Speeds', color='white', fontsize=12)
-            self.ax2.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
-            self.ax2.grid(True, alpha=0.3)
-            self.ax2.tick_params(colors='white')
-            self.ax2.set_facecolor((0.1, 0.1, 0.1))
-            
-            # Update pulse count plot
-            self.ax3.clear()
-            self.ax3.plot(timestamps, history['left_pulses'][-100:], 
-                         label='Left Pulses', color='red', linewidth=2)
-            self.ax3.plot(timestamps, history['right_pulses'][-100:], 
-                         label='Right Pulses', color='green', linewidth=2)
-            self.ax3.set_title('Hall Sensor Pulse Counts', color='white', fontsize=12)
-            self.ax3.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
-            self.ax3.grid(True, alpha=0.3)
-            self.ax3.tick_params(colors='white')
-            self.ax3.set_facecolor((0.1, 0.1, 0.1))
-            
-            # Update system status
-            self.ax4.clear()
-            status = self.motor_controller.get_status()
-            system_vars = [
-                status['system']['emergency_stop'],
-                status['system']['braking'],
-                status['system']['ros_connected'],
-                status['system'].get('serial_connected', False)
-            ]
-            colors = ['red', 'orange', 'blue', 'green']
-            bars = self.ax4.bar(['Emergency', 'Braking', 'ROS', 'Serial'], 
-                               system_vars, color=colors, alpha=0.7)
-            self.ax4.set_title('System Status', color='white', fontsize=12)
-            self.ax4.set_ylim(0, 1)
-            self.ax4.grid(True, alpha=0.3)
-            self.ax4.tick_params(colors='white')
-            self.ax4.set_facecolor((0.1, 0.1, 0.1))
-            
-            # Draw the canvas
-            self.canvas.draw()
-            self.canvas.flush_events()
-    
-    def render_dashboard(self):
-        # Clear screen
+    def render_loading_screen(self, startup_time):
+        """Render a loading screen while waiting for data"""
         self.screen.fill(self.colors['background'])
         
-        # Get current status
+        # Calculate loading progress (0 to 1)
+        elapsed = time.time() - startup_time
+        progress = min(1.0, elapsed / 3.0)  # 3 second loading
+        
+        # Draw loading text
+        loading_text = "Connecting to Motor Controller..."
+        text_surf = self.fonts['large'].render(loading_text, True, self.colors['accent'])
+        self.screen.blit(text_surf, (self.width // 2 - text_surf.get_width() // 2, 
+                                    self.height // 2 - 50))
+        
+        # Draw progress bar
+        bar_width = 400
+        bar_height = 20
+        bar_x = self.width // 2 - bar_width // 2
+        bar_y = self.height // 2 + 20
+        
+        # Background
+        pygame.draw.rect(self.screen, self.colors['panel'], (bar_x, bar_y, bar_width, bar_height), border_radius=10)
+        # Progress
+        progress_width = int(bar_width * progress)
+        pygame.draw.rect(self.screen, self.colors['accent'], (bar_x, bar_y, progress_width, bar_height), border_radius=10)
+        # Border
+        pygame.draw.rect(self.screen, self.colors['text'], (bar_x, bar_y, bar_width, bar_height), 2, border_radius=10)
+        
+        # Percentage text
+        percent_text = f"{int(progress * 100)}%"
+        percent_surf = self.fonts['medium'].render(percent_text, True, self.colors['text'])
+        self.screen.blit(percent_surf, (bar_x + bar_width + 10, bar_y - 2))
+        
+        # Status information
         status = self.motor_controller.get_status()
-        
-        # Draw status bar at top
-        self.draw_status_bar()
-        
-        # Calculate panel dimensions with better spacing
-        panel_width = (self.width - 3 * self.layout['panel_spacing']) // 2
-        left_panel_x = self.layout['padding']
-        right_panel_x = left_panel_x + panel_width + self.layout['panel_spacing']
-        panel_y = self.layout['padding'] + self.layout['status_height'] + self.layout['panel_spacing']
-        panel_height = (self.height - panel_y - 2 * self.layout['padding']) // 2
-        
-        # Draw panels with improved layout
-        self.draw_panel(left_panel_x, panel_y, panel_width, panel_height, "Motor Status")
-        self.draw_panel(right_panel_x, panel_y, panel_width, panel_height, "Real-time Plots")
-        self.draw_panel(left_panel_x, panel_y + panel_height + self.layout['panel_spacing'], 
-                       panel_width, panel_height, "System Status")
-        self.draw_panel(right_panel_x, panel_y + panel_height + self.layout['panel_spacing'], 
-                       panel_width, panel_height, "Control Panel")
-        
-        # Draw content in panels
-        self.draw_motor_status(left_panel_x + 20, panel_y + 50, status)
-        self.draw_system_status(left_panel_x + 20, panel_y + panel_height + self.layout['panel_spacing'] + 50, status)
-        self.draw_control_buttons(right_panel_x + 20, panel_y + panel_height + self.layout['panel_spacing'] + 50)
-        self.draw_matplotlib_plot(right_panel_x + 10, panel_y + 40, panel_width - 20, panel_height - 50)
+        serial_status = "Connected" if status['system'].get('serial_connected', False) else "Disconnected"
+        status_text = f"Serial: {serial_status}"
+        status_surf = self.fonts['small'].render(status_text, True, 
+                                               self.colors['connected'] if status['system'].get('serial_connected', False) 
+                                               else self.colors['disconnected'])
+        self.screen.blit(status_surf, (self.width // 2 - status_surf.get_width() // 2, bar_y + 40))
+    
+    def update_plots(self):
+        try:
+            history = self.motor_controller.get_history()
+            
+            if len(history['timestamp']) > 0:
+                timestamps = history['timestamp'][-100:]  # Show only last 100 points
+                
+                # Update speed plot
+                self.ax1.clear()
+                self.ax1.plot(timestamps, history['left_speed'][-100:], 
+                             label='Left Speed', color='red', linewidth=2)
+                self.ax1.plot(timestamps, history['right_speed'][-100:], 
+                             label='Right Speed', color='green', linewidth=2)
+                self.ax1.set_title('Motor Speeds', color='white', fontsize=12)
+                self.ax1.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
+                self.ax1.grid(True, alpha=0.3)
+                self.ax1.tick_params(colors='white')
+                self.ax1.set_facecolor((0.1, 0.1, 0.1))
+                
+                # Update target vs actual plot
+                self.ax2.clear()
+                self.ax2.plot(timestamps, history['left_target'][-100:], 
+                             label='Left Target', color='red', linestyle='--', linewidth=2)
+                self.ax2.plot(timestamps, history['left_speed'][-100:], 
+                             label='Left Actual', color='red', linewidth=2)
+                self.ax2.plot(timestamps, history['right_target'][-100:], 
+                             label='Right Target', color='green', linestyle='--', linewidth=2)
+                self.ax2.plot(timestamps, history['right_speed'][-100:], 
+                             label='Right Actual', color='green', linewidth=2)
+                self.ax2.set_title('Target vs Actual Speeds', color='white', fontsize=12)
+                self.ax2.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
+                self.ax2.grid(True, alpha=0.3)
+                self.ax2.tick_params(colors='white')
+                self.ax2.set_facecolor((0.1, 0.1, 0.1))
+                
+                # Update RPM plot
+                self.ax3.clear()
+                self.ax3.plot(timestamps, history['left_rpm'][-100:], 
+                             label='Left RPM', color='red', linewidth=2)
+                self.ax3.plot(timestamps, history['right_rpm'][-100:], 
+                             label='Right RPM', color='green', linewidth=2)
+                self.ax3.set_title('Motor RPM', color='white', fontsize=12)
+                self.ax3.legend(facecolor=(0.2, 0.2, 0.2), edgecolor='white', labelcolor='white')
+                self.ax3.grid(True, alpha=0.3)
+                self.ax3.tick_params(colors='white')
+                self.ax3.set_facecolor((0.1, 0.1, 0.1))
+                
+                # Update system status
+                self.ax4.clear()
+                status = self.motor_controller.get_status()
+                system_vars = [
+                    float(status['system']['emergency_stop']),
+                    float(status['system']['braking']),
+                    float(status['system']['ros_connected']),
+                    float(status['system'].get('serial_connected', False))
+                ]
+                colors = ['red', 'orange', 'blue', 'green']
+                bars = self.ax4.bar(['Emergency', 'Braking', 'ROS', 'Serial'], 
+                                   system_vars, color=colors, alpha=0.7)
+                self.ax4.set_title('System Status', color='white', fontsize=12)
+                self.ax4.set_ylim(0, 1)
+                self.ax4.grid(True, alpha=0.3)
+                self.ax4.tick_params(colors='white')
+                self.ax4.set_facecolor((0.1, 0.1, 0.1))
+                
+                # Draw the canvas
+                self.canvas.draw()
+                self.canvas.flush_events()
+                
+        except Exception as e:
+            print(f"Plot update error: {e}")
+    
+    def render_dashboard(self):
+        try:
+            # Clear screen
+            self.screen.fill(self.colors['background'])
+            
+            # Get current status
+            status = self.motor_controller.get_status()
+            
+            # Draw status bar at top
+            self.draw_status_bar()
+            
+            # Calculate panel dimensions with better spacing
+            panel_width = (self.width - 3 * self.layout['panel_spacing']) // 2
+            left_panel_x = self.layout['padding']
+            right_panel_x = left_panel_x + panel_width + self.layout['panel_spacing']
+            panel_y = self.layout['padding'] + self.layout['status_height'] + self.layout['panel_spacing']
+            panel_height = (self.height - panel_y - 2 * self.layout['padding']) // 2
+            
+            # Draw panels with improved layout
+            self.draw_panel(left_panel_x, panel_y, panel_width, panel_height, "Motor Status")
+            self.draw_panel(right_panel_x, panel_y, panel_width, panel_height, "Real-time Plots")
+            self.draw_panel(left_panel_x, panel_y + panel_height + self.layout['panel_spacing'], 
+                           panel_width, panel_height, "System Status")
+            self.draw_panel(right_panel_x, panel_y + panel_height + self.layout['panel_spacing'], 
+                           panel_width, panel_height, "Control Panel")
+            
+            # Draw content in panels
+            self.draw_motor_status(left_panel_x + 20, panel_y + 50, status)
+            self.draw_system_status(left_panel_x + 20, panel_y + panel_height + self.layout['panel_spacing'] + 50, status)
+            self.draw_control_buttons(right_panel_x + 20, panel_y + panel_height + self.layout['panel_spacing'] + 50)
+            self.draw_matplotlib_plot(right_panel_x + 10, panel_y + 40, panel_width - 20, panel_height - 50)
+            
+        except Exception as e:
+            print(f"Rendering error: {e}")
     
     def draw_status_bar(self):
         # Draw status bar at top of screen
@@ -260,15 +346,15 @@ class DataVisualizer:
         self.draw_text("LEFT MOTOR", x, y, self.fonts['medium'], self.colors['left_motor'])
         self.draw_text(f"Speed: {motors['left']['speed']}/255", x, y + 35, self.fonts['small'])
         self.draw_text(f"Target: {motors['left']['target']}/255", x, y + 60, self.fonts['small'])
-        self.draw_text(f"Direction: {motors['left']['direction']}", x, y + 85, self.fonts['small'])
-        self.draw_text(f"Pulses: {motors['left']['pulses']}", x, y + 110, self.fonts['small'])
+        self.draw_text(f"RPM: {motors['left']['rpm']:.1f}", x, y + 85, self.fonts['small'])
+        self.draw_text(f"Direction: {motors['left']['direction']}", x, y + 110, self.fonts['small'])
         
         # Right motor section
         self.draw_text("RIGHT MOTOR", x, y + 150, self.fonts['medium'], self.colors['right_motor'])
         self.draw_text(f"Speed: {motors['right']['speed']}/255", x, y + 185, self.fonts['small'])
         self.draw_text(f"Target: {motors['right']['target']}/255", x, y + 210, self.fonts['small'])
-        self.draw_text(f"Direction: {motors['right']['direction']}", x, y + 235, self.fonts['small'])
-        self.draw_text(f"Pulses: {motors['right']['pulses']}", x, y + 260, self.fonts['small'])
+        self.draw_text(f"RPM: {motors['right']['rpm']:.1f}", x, y + 235, self.fonts['small'])
+        self.draw_text(f"Direction: {motors['right']['direction']}", x, y + 260, self.fonts['small'])
         
         # Draw speed bars with better spacing
         self.draw_speed_bar(x + 180, y + 35, motors['left']['speed'], self.colors['left_motor'])
@@ -296,13 +382,8 @@ class DataVisualizer:
                       x, y + 90, self.fonts['small'], braking_color)
         self.draw_text(f"ROS: {'CONNECTED' if system['ros_connected'] else 'DISCONNECTED'}", 
                       x, y + 115, self.fonts['small'], ros_color)
-        
-        # Performance metrics
-        if len(status.get('performance', {})) > 0:
-            self.draw_text(f"Update Rate: {status['performance'].get('update_rate', 0):.1f} Hz", 
-                          x, y + 145, self.fonts['small'])
-            self.draw_text(f"Loop Time: {status['performance'].get('loop_time', 0):.1f} ms", 
-                          x, y + 170, self.fonts['small'])
+        self.draw_text(f"Simulation: {'ACTIVE' if system['simulation_mode'] else 'INACTIVE'}", 
+                      x, y + 140, self.fonts['small'], self.colors['warning'] if system['simulation_mode'] else self.colors['text'])
     
     def draw_control_buttons(self, x, y):
         button_width = 140
@@ -312,26 +393,27 @@ class DataVisualizer:
         # Group buttons logically
         control_groups = [
             [
-                ("⏩ Forward", self.motor_controller.set_direction, ["left", "FORWARD"]),
-                ("⏪ Reverse", self.motor_controller.set_direction, ["left", "REVERSE"]),
-                ("⏹ Stop", self.motor_controller.stop_motors, [])
+                ("⏩ Forward", lambda: self.motor_controller.set_direction('both', 'FORWARD')),
+                ("⏪ Reverse", lambda: self.motor_controller.set_direction('both', 'REVERSE')),
+                ("⏹ Stop", self.motor_controller.stop_motors)
             ],
             [
-                ("🚨 Emergency", self.motor_controller.emergency_stop, []),
-                ("✅ Clear", self.motor_controller.clear_emergency, []),
-                ("🔧 Settings", self.open_settings, [])
+                ("🚨 Emergency", self.motor_controller.emergency_stop),
+                ("✅ Clear", self.motor_controller.clear_emergency),
+                ("📊 Diagnostics", self.motor_controller.print_diagnostics)
             ],
             [
-                ("🔄 Soft Brake", self.motor_controller.activate_soft_brake, []),
-                ("⚡ Hard Brake", self.motor_controller.activate_hard_brake, []),
-                ("📊 Diagnostics", self.motor_controller.print_diagnostics, [])
+                ("🔄 Soft Brake", self.motor_controller.activate_soft_brake),
+                ("⚡ Hard Brake", self.motor_controller.activate_hard_brake),
+                ("🌊 Coast", self.motor_controller.coast_motors)
             ]
         ]
         
         mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
         
         for group_idx, group in enumerate(control_groups):
-            for btn_idx, (text, command, args) in enumerate(group):
+            for btn_idx, (text, command) in enumerate(group):
                 btn_x = x + group_idx * (button_width + button_spacing)
                 btn_y = y + btn_idx * (button_height + button_spacing)
                 
@@ -349,14 +431,12 @@ class DataVisualizer:
                 self.screen.blit(text_surf, (btn_x + 10, btn_y + 12))
                 
                 # Handle click
-                if mouse_over and pygame.mouse.get_pressed()[0]:
-                    pygame.time.delay(200)  # Debounce
-                    command(*args)
-    
-    def open_settings(self):
-        # Placeholder for settings dialog
-        print("Settings dialog would open here")
-        # This could open a modal dialog for changing serial port, baud rate, etc.
+                if mouse_over and mouse_pressed:
+                    try:
+                        command()
+                        pygame.time.delay(200)  # Debounce
+                    except Exception as e:
+                        print(f"Button command failed: {e}")
     
     def draw_speed_bar(self, x, y, speed, color):
         max_width = 200
@@ -367,11 +447,11 @@ class DataVisualizer:
         
         # Draw background
         pygame.draw.rect(self.screen, (60, 60, 70), (x, y, max_width, height), border_radius=3)
-        # Draw filled portion
+        # Progress
         pygame.draw.rect(self.screen, color, (x, y, width, height), border_radius=3)
-        # Draw border
+        # Border
         pygame.draw.rect(self.screen, self.colors['text'], (x, y, max_width, height), 1, border_radius=3)
-        # Draw text
+        # Text
         speed_text = self.fonts['small'].render(f"{speed}/255", True, self.colors['text'])
         self.screen.blit(speed_text, (x + max_width + 10, y))
     
@@ -382,9 +462,12 @@ class DataVisualizer:
         self.screen.blit(text_surface, (x, y))
     
     def draw_matplotlib_plot(self, x, y, width, height):
-        # Convert matplotlib figure to pygame surface
-        buf = self.canvas.buffer_rgba()
-        plot_surface = pygame.image.frombuffer(buf, self.canvas.get_width_height(), 'RGBA')
-        # Scale and draw
-        scaled_surface = pygame.transform.smoothscale(plot_surface, (width, height))
-        self.screen.blit(scaled_surface, (x, y))
+        try:
+            # Convert matplotlib figure to pygame surface
+            buf = self.canvas.buffer_rgba()
+            plot_surface = pygame.image.frombuffer(buf, self.canvas.get_width_height(), 'RGBA')
+            # Scale and draw
+            scaled_surface = pygame.transform.smoothscale(plot_surface, (width, height))
+            self.screen.blit(scaled_surface, (x, y))
+        except Exception as e:
+            print(f"Plot rendering error: {e}")

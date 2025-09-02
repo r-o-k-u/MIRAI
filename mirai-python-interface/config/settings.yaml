@@ -1,5 +1,5 @@
 serial:
-  port: /dev/ttyS5 #/dev/ttyUSB0  # or COM3 on Windows
+  port: COM5 #/dev/ttyUSB0  # or COM3 on Windows
   baudrate: 115200
   timeout: 1
 

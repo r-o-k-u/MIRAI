@@ -5,16 +5,19 @@
 
 // Motor state tracking structure
 struct MotorState {
-  int current_speed;        // 0-255
-  int target_speed;         // 0-255
-  String direction;         // FORWARD, REVERSE, STOPPED
-  bool is_braking;          // Braking in progress
+  int current_speed;
+  int target_speed;
+  String direction;
+  bool is_braking;
   unsigned long brake_start_time;
-  volatile int pulse_count; // Hall sensor pulse count
-  float pulses_per_rotation;// Motor specific pulses per rotation
+  volatile int pulse_count;
+  float pulses_per_rotation;
+  double rpm;
+  double mph;
+  double kph;
 };
 
-// Global variables
+// Global variables (extern declarations - NO DEFINITIONS HERE)
 extern MotorState motorL;
 extern MotorState motorR;
 extern bool emergency_stop;
@@ -33,9 +36,12 @@ void activateSoftBrake();
 void activateHardBrake();
 void clearEmergency();
 void updateBraking();
-void updateMotorSpeeds();
 int calculateBrakeSpeed(int motor_num);
 void blinkStatusLED(int times, int delay_ms);
+
+// Speed measurement functions
+void readSpeed(int motor_num);
+void writeToSerial();
 
 // Hall sensor interrupt handlers
 void recordPulseL();

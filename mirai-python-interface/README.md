@@ -1,7 +1,7 @@
 # Installation
 # Create virtual environment
-python -m venv mirai-env
-source mirai-env/bin/activate  # On Windows: mirai-env\Scripts\activate
+python -m venv venv
+source venv/Scripts/activate # On Windows: venv\Scripts\activate
 
 # Install dependencies
 ```bash

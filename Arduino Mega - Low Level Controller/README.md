@@ -1,4 +1,4 @@
-# 🚀 MIRAI Phase 2: Dual Hoverboard Motor Control with PlatformIO
+# 🚀 MIRAI Phase: Dual Hoverboard Motor Control with PlatformIO
 
 ## 📋 Overview
 Complete implementation for controlling two hoverboard motors with ZS-X11H controllers, including PID control, hall sensor feedback, smooth braking functionality, and ROS2 compatibility.
@@ -6,108 +6,73 @@ Complete implementation for controlling two hoverboard motors with ZS-X11H contr
 ## 🛠 Hardware Setup
 
 ### Components Required
-- Arduino Mega 2560
+- Arduino Mega 2560 or Arduino Nano
 - 2x ZS-X11H Motor Controllers
 - 2x Recycled Hoverboard Motors (Brushless DC)
 - External Power Supply (24-36V for hoverboard motors)
 
 ### ZS-X11H Motor Controller Pinout
-https://github.com/user-attachments/assets/controller-pinout-example *Note: Add actual photo of your ZS-X11H controller*
 
-
-The ZS-X11H typically has these connections:
-
-ENA: PWM Speed Control (connect to Arduino PWM pins)
-
-IN1 & IN2: Direction Control (HIGH/LOW combinations determine direction)
-
-VM: Motor Power Input (12-36V)
-
-VCC: Logic Voltage (5V - often optional)
-
-GND: Ground
-
-Motor Outputs: A+ and A- (to motor phases)\
-
-### Wiring Configuration
-Motor Controller 1 (Left Motor) ↔ Arduino Mega
-ZS-X11H Right       Arduino Mega
+**Left Motor Controller:**
+```text
+ZS-X11H Left Arduino
 ─────────────────────────────────
-ENA_L (PWM)    → Digital Pin 5 (PWM capable)
-IN1_L          → Digital Pin 6  
-IN2_L          → Digital Pin 7 
-HALL_L         → Digital Pin 2 (Interrupt 0)
-GND            → GND (common ground)
-Motor Connections:
-A+ → Hoverboard Motor Phase U
-A- → Hoverboard Motor Phase V
+P (Red - PWM) → Digital Pin 10
+S (Yellow - Speed) → Digital Pin 11 (Input)
+BRK (Blue - Brake) → Digital Pin 5
+DIR (Orange - Direction) → Digital Pin 4
+GND (Black) → GND
+```
 
-Motor Controller 2 (Right Motor) ↔ Arduino Mega
-ZS-X11H Right       Arduino Mega
+**Right Motor Controller:**
+```text
+ZS-X11H Right Arduino
 ─────────────────────────────────
-ENA_R (PWM)    → Digital Pin 9 (PWM capable)
-IN1_R          → Digital Pin 10  
-IN2_R          → Digital Pin 11
-HALL_R         → Digital Pin 3 (Interrupt 1)
-GND            → GND (common ground)
+P (Red - PWM) → Digital Pin 9
+S (Yellow - Speed) → Digital Pin 12 (Input)
+BRK (Blue - Brake) → Digital Pin 3
+DIR (Orange - Direction) → Digital Pin 2
+GND (Black) → GND
+```
 
-### Motor Connections:
-A+ → Hoverboard Motor Phase U
-A- → Hoverboard Motor Phase V
-Power Connections:
 
-text
+### Power Connections:
+```text
 External Power Supply → Motor Controllers
 ─────────────────────────────────────────
-24-36V (+)           → VM on both controllers
-GND (-)              → GND on both controllers
+24-36V (+) → VM on both controllers
+GND (-) → GND on both controllers
+
+```
 
 ### ⚠️ Critical Safety Notes:
+- Hoverboard motors require 24-36V! Do not use lower voltages
+- Connect all GND connections together - Arduino GND must connect to external power supply GND
+- Use appropriate wire gauge - 14-16 AWG for motor power connections
+- Add fuses - 20-30A fuses recommended on VM power lines
 
-Hoverboard motors require 24-36V! Do not use lower voltages
-
-Connect all GND connections together - Arduino GND must connect to external power supply GND
-
-Use appropriate wire gauge - 14-16 AWG for motor power connections
-
-Add fuses - 20-30A fuses recommended on VM power lines
-
-
-### 🔧 Connection Photos & Diagrams
-Add photos of your actual setup here:
-
-ZS-X11H controller close-up showing pin labels
-
-Arduino Mega with all connections
-
-Complete wiring overview
-
-Power supply connections
-
-### 📁 PlatformIO Project Structure
-text
+## 📁 PlatformIO Project Structure
 mirai-hoverboard-motor-control/
 ├── include/
-│   ├── config.h
-│   ├── motor_control.h
-│   ├── pid_control.h
-│   └── communication.h
-├── lib/
-│   └── README  
+│ ├── config.h
+│ ├── motor_control.h
+│ ├── pid_control.h
+│ └── communication.h
 ├── src/
-│   ├── main.cpp
-│   ├── motor_control.cpp
-│   ├── pid_control.cpp
-│   └── communication.cpp
-├── test/
-│   └── test_connections.py
+│ ├── main.cpp
+│ ├── motor_control.cpp
+│ ├── pid_control.cpp
+│ └── communication.cpp
 ├── platformio.ini
 └── README.md
 
 
-#### ⚙️ PlatformIO Configuration
-platformio.ini
-ini
+
+### ⚙️ PlatformIO Configuration
+
+**platformio.ini**
+```ini
+; For Arduino Mega
 [env:megaatmega2560]
 platform = atmelavr
 board = megaatmega2560
@@ -119,163 +84,189 @@ build_flags =
     -D ROS2_SERIAL_BAUDRATE=115200
     -D SERIAL_DEBUG
 
+; For Arduino Nano
+[env:nanoatmega328]
+platform = atmelavr
+board = nanoatmega328
+framework = arduino
+monitor_speed = 115200
+build_flags = 
+    -D ROS2_SERIAL_BAUDRATE=115200
+    -D SERIAL_DEBUG
+```
 ## 🧪 Testing Procedure
-
-### 1. Build and Upload
+##### 1. Build and Upload
 ```bash
 # Build the project
 pio run
 
-# Upload to Arduino Mega
+# Upload to Arduino
 pio run --target upload
 
 # Monitor serial output
 pio device monitor
-2. Connection Verification Test
-Before powering motors, test with this simple sketch:
 ```
-```cpp
-void setup() {
-  Serial.begin(115200);
-  pinMode(5, OUTPUT); pinMode(6, OUTPUT); pinMode(7, OUTPUT);
-  pinMode(9, OUTPUT); pinMode(10, OUTPUT); pinMode(11, OUTPUT);
-  Serial.println("Connection test: All pins set to OUTPUT");
-}
+##### 2. Basic Functionality Test
+Test these commands in sequence:
 
-void loop() {
-  // Test each pin sequentially
-  for (int pin = 5; pin <= 11; pin++) {
-    if (pin != 8) { // Skip pin 8
-      digitalWrite(pin, HIGH);
-      Serial.print("Pin "); Serial.print(pin); Serial.println(" HIGH");
-      delay(500);
-      digitalWrite(pin, LOW);
-    }
-  }
-}
-```
-### 2. Basic Functionality Test
-#### Test these commands in sequence:
+- **HELP** - Show available commands
 
-HELP - Show available commands
+- **F** - Move both motors forward
 
-F - Move both motors forward
+- **150** - Set speed to 150/255
 
-150 - Set speed to 150/255
+- **SOFTBRAKE** - Test soft braking
 
-SOFTBRAKE - Test soft braking
+- **R** - Move both motors reverse
 
-R - Move both motors reverse
+- **HARDBRAKE** - Test hard braking
 
-HARDBRAKE - Test hard braking
+- **COAST** - Let motors free spin
 
-COAST - Let motors free spin
+- **E** - Emergency stop
 
-E - Emergency stop
+- **C** - Clear emergency
 
-C - Clear emergency
+- **D** - Show diagnostics
 
-D - Show diagnostics
+##### 3. Individual Motor Control Test
+- **ML:100** - Motor L at speed 100
 
-### 3. Individual Motor Control Test
-ML:100 - Motor L at speed 100
+- **MR:200** - Motor R at speed 200
 
-MR:200 - Motor R at speed 200
+- **STATUS** - Check individual motor status
 
-STATUS - Check individual motor status
+##### 4. PID Control Test
+- **PID** - Show PID status
 
-### 4. ROS2 Simulation Test
+- **PIDL**:0.2,0.8,0.002,60 - Tune left PID
+
+- **PIDR**:0.18,0.75,0.0015,55 - Tune right PID
+
+- **PIDBOTH**:RESET - Reset both PIDs
+
+##### 5. ROS2 Simulation Test
 Test ROS2-like commands:
 
-ROS:FORWARD
+- **ROS:FORWARD**
 
-ROS:SPEED:180
+- **ROS:SPEED:180**
 
-ROS:SOFTBRAKE
+- **ROS:SOFTBRAKE**
 
-ROS:STATUS
+- **ROS:STATUS**
 
-# 🔌 ROS2 Integration Setup
-Orange Pi Side Setup
-```bash
+## 🔌 ROS2 Integration Setup
+##### Orange Pi Side Setup
+
+``` bash
 # On Orange Pi Zero 2W
 sudo apt update
 sudo apt install ros-humble-rosserial-arduino ros-humble-rosserial
 
 # Create ROS2 package
 ros2 pkg create mirai_motor_control --build-type ament_cmake
+
 ```
-# Serial Communication Setup
-The code uses Serial1 (pins 18/19) for ROS2 communication:
+## Serial Communication Setup
+The code uses Serial1 (pins 18/19 on Mega) for ROS2 communication:
 
-Connect Orange Pi TX → Arduino Mega RX1 (pin 19)
+- Connect Orange Pi TX → Arduino RX1 (pin 19 on Mega)
 
-Connect Orange Pi RX → Arduino Mega TX1 (pin 18)
+- Connect Orange Pi RX → Arduino TX1 (pin 18 on Mega)
 
-Connect GND between both devices
+- Connect GND between both devices
 
-# 📦 Production Deployment
-### 1. Optimize Build Settings
-ini
+## 📦 Production Deployment
+1. Optimize Build Settings
+``` ini
 ; platformio.ini optimization for production
 build_flags = 
     -D ROS2_SERIAL_BAUDRATE=115200
     -Os
     -flto
-### 2. Create Deployment Script
-bash
+2. Create Deployment Script
+```
+``` bash
 #!/bin/bash
 # deploy-hoverboard-motors.sh
 
 echo "🔨 Building MIRAI Hoverboard Motor Controller..."
 pio run
 
-echo "📤 Uploading to Arduino Mega..."
+echo "📤 Uploading to Arduino..."
 pio run --target upload
 
 echo "✅ Deployment complete!"
 echo "📋 Serial monitor: pio device monitor"
-
+```
 ## 🚨 Troubleshooting Common Issues
-- Motors not moving?
+##### Motors not moving?
 
-Check all GND connections are common
+- Check all GND connections are common
 
-Verify 24-36V power supply is working
+- Verify 24-36V power supply is working
 
-Test with multimeter for voltage at VM pins
+- Test with multimeter for voltage at VM pins
 
-- Erratic motor behavior?
+##### Erratic motor behavior?
 
-Ensure all connections are secure
+- Ensure all connections are secure
 
-Check for loose hall sensor connections
+- Check for loose speed sensor connections
 
-Verify PWM pins are correctly configured
+- Verify PWM pins are correctly configured
 
-- Controllers overheating?
+##### Controllers overheating?
 
-Add heatsinks to ZS-X11H controllers
+- Add heatsinks to ZS-X11H controllers
 
-Ensure adequate airflow
+- Ensure adequate airflow
 
-Reduce load or use higher current rating controllers
+- Reduce load or use higher current rating controllers
 
-- Serial communication issues?
+##### Serial communication issues?
 
-Verify baud rate matches (115200)
+- Verify baud rate matches (115200)
 
-Check TX/RX connections are not reversed
+- Check TX/RX connections are not reversed
 
-Ensure common ground between all devices
+- Ensure common ground between all devices
 
-# 📊 Expected Performance
-Speed Range: 0-255 PWM (approximately 0-300 RPM for hoverboard motors)
+##### PID tuning issues?
 
-Current Draw: 5-20A per motor under load
+- Start with low gains: PIDBOTH:0.1,0.5,0.0005,30
 
-Response Time: <100ms for speed changes
+- Gradually increase until you get stable response
 
-Braking Distance: 0.5-2m depending on speed and braking mode
+- Use PIDSTATUS to monitor performance
 
-Remember to add actual photos of your setup to this documentation for future reference!
+## 📊 Expected Performance
+- Speed Range: 0-255 PWM (approximately 0-300 RPM for hoverboard motors)
+
+- Current Draw: 5-20A per motor under load
+
+- Response Time: <100ms for speed changes
+
+- Braking Distance: 0.5-2m depending on speed and braking mode
+
+- PID Stability: <5% overshoot with proper tuning
+
+## 🔧 PID Tuning Guide
+1. **Start with basic P control**: PIDBOTH:0.15,0,0,0
+
+2. **Add I term to eliminate steady-state error**: PIDBOTH:0.15,0.7,0,50
+
+3. **Add D term to reduce overshoot: PIDBOTH**:0.15,0.7,0.001,50
+
+4. **Fine-tune for your specific motors**: Adjust based on response
+
+##### Recommended starting values:
+
+- Kp: 0.15-0.25
+
+- Ki: 0.5-1.0
+
+- Kd: 0.001-0.005
+
+- Max Integral: 30-70
