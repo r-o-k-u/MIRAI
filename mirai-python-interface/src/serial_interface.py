@@ -1,4 +1,3 @@
-# serial_interface.py
 import serial
 import time
 import logging
@@ -16,6 +15,8 @@ class SerialInterface:
         self.data_queue = Queue()
         self.command_queue = Queue()
         self.logger = self.setup_logger()
+        self.connection_attempts = 0
+        self.max_connection_attempts = 5
         
     def load_config(self, config_path):
         try:
@@ -55,13 +56,22 @@ class SerialInterface:
             self.serial_conn = serial.Serial(
                 port=self.config['serial']['port'],
                 baudrate=self.config['serial']['baudrate'],
-                timeout=self.config['serial']['timeout']
+                timeout=self.config['serial']['timeout'],
+                write_timeout=1.0  # Add write timeout
             )
             time.sleep(2)  # Wait for connection to establish
             self.logger.info(f"Connected to {self.config['serial']['port']}")
+            self.connection_attempts = 0
             return True
         except serial.SerialException as e:
-            self.logger.error(f"Serial connection failed: {e}")
+            self.connection_attempts += 1
+            if self.connection_attempts <= self.max_connection_attempts:
+                self.logger.warning(f"Serial connection attempt {self.connection_attempts} failed: {e}")
+            else:
+                self.logger.error(f"Serial connection failed after {self.max_connection_attempts} attempts: {e}")
+            return False
+        except Exception as e:
+            self.logger.error(f"Unexpected connection error: {e}")
             return False
     
     def start(self):
@@ -72,11 +82,16 @@ class SerialInterface:
             self.read_thread.start()
             self.write_thread.start()
             self.logger.info("Serial interface started")
+        else:
+            self.logger.error("Failed to start serial interface")
     
     def stop(self):
         self.running = False
         if self.serial_conn and self.serial_conn.is_open:
-            self.serial_conn.close()
+            try:
+                self.serial_conn.close()
+            except Exception as e:
+                self.logger.error(f"Error closing serial connection: {e}")
         self.logger.info("Serial interface stopped")
     
     def _read_loop(self):
@@ -84,7 +99,7 @@ class SerialInterface:
             try:
                 if self.simulate:
                     # Generate simulated data
-                    time.sleep(0.1)
+                    time.sleep(0.5)  # Slower simulation to reduce CPU usage
                     left_speed = random.randint(0, 255)
                     right_speed = random.randint(0, 255)
                     left_rpm = left_speed * 300 / 255
@@ -96,15 +111,21 @@ class SerialInterface:
                     ]
                     for data in simulated_data:
                         self.data_queue.put(data)
-                elif self.serial_conn and self.serial_conn.in_waiting > 0:
-                    line = self.serial_conn.readline().decode('utf-8').strip()
-                    if line:
-                        self.data_queue.put(line)
-            except serial.SerialException as e:
-                self.logger.error(f"Read error: {e}")
-                time.sleep(0.1)
+                elif self.serial_conn and self.serial_conn.is_open:
+                    try:
+                        if self.serial_conn.in_waiting > 0:
+                            line = self.serial_conn.readline().decode('utf-8').strip()
+                            if line:
+                                self.data_queue.put(line)
+                        else:
+                            time.sleep(0.01)  # Small sleep to prevent busy waiting
+                    except serial.SerialException as e:
+                        self.logger.error(f"Serial read error: {e}")
+                        # Try to reconnect
+                        self._handle_serial_error()
+                        time.sleep(1)
             except Exception as e:
-                self.logger.error(f"Unexpected read error: {e}")
+                self.logger.error(f"Unexpected read loop error: {e}")
                 time.sleep(1)
     
     def _write_loop(self):
@@ -114,28 +135,57 @@ class SerialInterface:
                     command = self.command_queue.get()
                     if self.simulate:
                         self.logger.debug(f"SIMULATION: Would send: {command}")
+                        # Simulate command processing delay
+                        time.sleep(0.1)
                     elif self.serial_conn and self.serial_conn.is_open:
-                        self.serial_conn.write((command + '\n').encode('utf-8'))
-                        self.logger.debug(f"Sent: {command}")
-            except serial.SerialException as e:
-                self.logger.error(f"Write error: {e}")
-                time.sleep(0.1)
+                        try:
+                            self.serial_conn.write((command + '\n').encode('utf-8'))
+                            self.logger.debug(f"Sent: {command}")
+                        except serial.SerialException as e:
+                            self.logger.error(f"Serial write error: {e}")
+                            # Try to reconnect
+                            self._handle_serial_error()
+                else:
+                    time.sleep(0.01)  # Small sleep to prevent busy waiting
             except Exception as e:
-                self.logger.error(f"Unexpected write error: {e}")
+                self.logger.error(f"Unexpected write loop error: {e}")
                 time.sleep(1)
     
+    def _handle_serial_error(self):
+        """Handle serial communication errors by attempting to reconnect"""
+        if not self.simulate:
+            self.logger.warning("Attempting to reconnect to serial port...")
+            self.stop()
+            time.sleep(2)
+            self.start()
+    
     def send_command(self, command):
-        self.command_queue.put(command)
+        """Send a command to the serial device"""
+        try:
+            self.command_queue.put(command)
+            return True
+        except Exception as e:
+            self.logger.error(f"Error queueing command: {e}")
+            return False
     
     def get_data(self):
-        if not self.data_queue.empty():
-            return self.data_queue.get()
-        return None
+        """Get a single data item from the queue"""
+        try:
+            if not self.data_queue.empty():
+                return self.data_queue.get_nowait()
+            return None
+        except Exception as e:
+            self.logger.error(f"Error getting data: {e}")
+            return None
     
     def get_all_data(self):
+        """Get all available data from the queue"""
         data = []
-        while not self.data_queue.empty():
-            data.append(self.data_queue.get())
+        try:
+            while not self.data_queue.empty():
+                data.append(self.data_queue.get_nowait())
+        except Exception as e:
+            self.logger.error(f"Error getting all data: {e}")
         return data
 
     def is_connected(self):
@@ -143,3 +193,12 @@ class SerialInterface:
         if self.simulate:
             return True
         return self.serial_conn is not None and self.serial_conn.is_open
+
+    def get_port_status(self):
+        """Get detailed port status information"""
+        if self.simulate:
+            return "Simulation Mode - No physical connection"
+        elif self.serial_conn and self.serial_conn.is_open:
+            return f"Connected to {self.config['serial']['port']}"
+        else:
+            return "Disconnected"

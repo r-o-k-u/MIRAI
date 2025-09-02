@@ -8,6 +8,12 @@ source venv/Scripts/activate # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 # 🚀 Usage Examples
+
+# 0. Run with simulation mode (no Arduino needed):
+
+``` bash
+python src/main.py --simulate
+```
 ## 1. Start with GUI
 ```bash
 python src/main.py

@@ -471,3 +471,59 @@ class DataVisualizer:
             self.screen.blit(scaled_surface, (x, y))
         except Exception as e:
             print(f"Plot rendering error: {e}")
+
+    def draw_pid_controls(self, x, y):
+        """Draw PID control interface"""
+        pid_width = 400
+        pid_height = 200
+        
+        # Draw PID control panel
+        self.draw_panel(x, y, pid_width, pid_height, "PID Control")
+        
+        # PID parameter inputs
+        params = [
+            ("Kp", 0.15, x + 20, y + 50),
+            ("Ki", 0.7, x + 120, y + 50),
+            ("Kd", 0.001, x + 220, y + 50),
+            ("MaxI", 50, x + 320, y + 50)
+        ]
+        
+        # Draw parameter labels and values
+        for param, default, param_x, param_y in params:
+            self.draw_text(f"{param}:", param_x, param_y, self.fonts['small'])
+            # Draw input box (simplified - would need actual input handling)
+            pygame.draw.rect(self.screen, self.colors['panel'], 
+                           (param_x + 30, param_y, 60, 25), border_radius=3)
+            self.draw_text(str(default), param_x + 35, param_y + 2, self.fonts['small'])
+        
+        # PID control buttons
+        pid_buttons = [
+            ("Tune Left", f"PIDL:{0.15},{0.7},{0.001},{50}", x + 20, y + 100),
+            ("Tune Right", f"PIDR:{0.15},{0.7},{0.001},{50}", x + 120, y + 100),
+            ("Tune Both", f"PIDBOTH:{0.15},{0.7},{0.001},{50}", x + 220, y + 100),
+            ("Reset PID", "PIDBOTH:RESET", x + 320, y + 100)
+        ]
+        
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+        
+        for text, command, btn_x, btn_y in pid_buttons:
+            # Check if mouse is over button
+            mouse_over = (btn_x <= mouse_pos[0] <= btn_x + 80 and 
+                         btn_y <= mouse_pos[1] <= btn_y + 30)
+            
+            # Draw button
+            btn_color = self.colors['accent'] if mouse_over else self.colors['panel']
+            pygame.draw.rect(self.screen, btn_color, (btn_x, btn_y, 80, 30), border_radius=5)
+            
+            # Draw button text
+            text_surf = self.fonts['small'].render(text, True, self.colors['text'])
+            self.screen.blit(text_surf, (btn_x + 5, btn_y + 5))
+            
+            # Handle click
+            if mouse_over and mouse_pressed:
+                try:
+                    self.motor_controller.send_pid_command(command)
+                    pygame.time.delay(200)  # Debounce
+                except Exception as e:
+                    print(f"PID command failed: {e}")

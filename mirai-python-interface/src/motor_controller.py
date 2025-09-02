@@ -230,3 +230,14 @@ class MotorController:
         except Exception as e:
             print(f"Error saving data: {e}")
             return None
+
+            
+    def send_pid_command(self, pid_command):
+        """Send PID tuning command to the controller"""
+        try:
+            self.serial_interface.send_command(pid_command)
+            self.logger.info(f"Sent PID command: {pid_command}")
+            return True
+        except Exception as e:
+            self.logger.error(f"Error sending PID command: {e}")
+            return False

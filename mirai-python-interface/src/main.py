@@ -21,6 +21,7 @@ def main():
     parser.add_argument('--no-gui', action='store_true', help='Run without GUI')
     parser.add_argument('--config', default='config/settings.yaml', help='Config file path')
     parser.add_argument('--simulate', action='store_true', help='Run in simulation mode (no serial)')
+    parser.add_argument('--port', help='Specify serial port (e.g., COM5)')
     args = parser.parse_args()
     
     # Setup signal handler for graceful shutdown
