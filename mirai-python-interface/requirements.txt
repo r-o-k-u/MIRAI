@@ -8,3 +8,4 @@ scipy==1.11.3
 opencv-python==4.8.1.78
 pyside6==6.5.2
 pyqtgraph==0.13.3
+flask==2.3.3

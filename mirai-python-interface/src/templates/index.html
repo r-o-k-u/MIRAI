@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIRAI Motor Control Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #191923;
+            --panel-bg: #282834;
+            --text-color: #dcdcdc;
+            --accent-color: #0096ff;
+            --left-motor: #ff6464;
+            --right-motor: #64ff64;
+            --emergency: #ff3232;
+            --success: #32ff32;
+            --warning: #ffa500;
+            --connected: #32c832;
+            --disconnected: #c83232;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .panel {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .panel-header {
+            background-color: var(--accent-color);
+            margin: -20px -20px 20px -20px;
+            padding: 15px 20px;
+            border-radius: 12px 12px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .status-bar {
+            background-color: var(--panel-bg);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            opacity: 0.9;
+        }
+        
+        .button-emergency {
+            background-color: var(--emergency);
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .motor-status {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .motor-left, .motor-right {
+            width: 45%;
+        }
+        
+        .speed-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #3c3c4c;
+            border-radius: 3px;
+            margin: 5px 0;
+            position: relative;
+        }
+        
+        .speed-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .system-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+        }
+        
+        .status-item {
+            padding: 10px;
+            background-color: #323240;
+            border-radius: 5px;
+        }
+        
+        .connected {
+            color: var(--connected);
+        }
+        
+        .disconnected {
+            color: var(--disconnected);
+        }
+        
+        .emergency-active {
+            color: var(--emergency);
+        }
+        
+        .slider-container {
+            margin: 15px 0;
+        }
+        
+        .slider {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <h1>MIRAI Motor Control Dashboard</h1>
+        <div id="connection-status" class="disconnected">Disconnected</div>
+        <div id="timestamp">Last Update: --:--:--</div>
+    </div>
+    
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">Motor Status</div>
+            <div class="motor-status">
+                <div class="motor-left">
+                    <h3 style="color: var(--left-motor);">LEFT MOTOR</h3>
+                    <div>Speed: <span id="left-speed">0</span>/255</div>
+                    <div class="speed-bar">
+                        <div class="speed-fill" id="left-speed-bar" style="background-color: var(--left-motor); width: 0%;"></div>
+                    </div>
+                    <div>Target: <span id="left-target">0</span>/255</div>
+                    <div>RPM: <span id="left-rpm">0</span></div>
+                    <div>Direction: <span id="left-direction">STOPPED</span></div>
+                </div>
+                <div class="motor-right">
+                    <h3 style="color: var(--right-motor);">RIGHT MOTOR</h3>
+                    <div>Speed: <span id="right-speed">0</span>/255</div>
+                    <div class="speed-bar">
+                        <div class="speed-fill" id="right-speed-bar" style="background-color: var(--right-motor); width: 0%;"></div>
+                    </div>
+                    <div>Target: <span id="right-target">0</span>/255</div>
+                    <div>RPM: <span id="right-rpm">0</span></div>
+                    <div>Direction: <span id="right-direction">STOPPED</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">Control Panel</div>
+            <div class="button-group">
+                <button class="button" onclick="sendCommand('forward')">⏩ Forward</button>
+                <button class="button" onclick="sendCommand('reverse')">⏪ Reverse</button>
+                <button class="button" onclick="sendCommand('stop')">⏹ Stop</button>
+            </div>
+            <div class="button-group">
+                <button class="button button-emergency" onclick="sendCommand('emergency')">🚨 Emergency Stop</button>
+                <button class="button" onclick="sendCommand('clear')">✅ Clear Emergency</button>
+            </div>
+            <div class="button-group">
+                <button class="button" onclick="sendCommand('softbrake')">🔄 Soft Brake</button>
+                <button class="button" onclick="sendCommand('hardbrake')">⚡ Hard Brake</button>
+                <button class="button" onclick="sendCommand('coast')">🌊 Coast</button>
+            </div>
+            <div class="slider-container">
+                <label for="left-speed-slider">Left Motor Speed:</label>
+                <input type="range" id="left-speed-slider" class="slider" min="0" max="255" value="0" onchange="setMotorSpeed('left', this.value)">
+                <span id="left-speed-value">0</span>/255
+            </div>
+            <div class="slider-container">
+                <label for="right-speed-slider">Right Motor Speed:</label>
+                <input type="range" id="right-speed-slider" class="slider" min="0" max="255" value="0" onchange="setMotorSpeed('right', this.value)">
+                <span id="right-speed-value">0</span>/255
+            </div>
+            <div class="slider-container">
+                <label for="both-speed-slider">Both Motors Speed:</label>
+                <input type="range" id="both-speed-slider" class="slider" min="0" max="255" value="0" onchange="setBothSpeeds(this.value)">
+                <span id="both-speed-value">0</span>/255
+            </div>
+            <div class="button-group">
+                <button class="button" onclick="sendCommand('diagnostics')">📊 Diagnostics</button>
+                <button class="button" onclick="saveData()">💾 Save Data</button>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">System Status</div>
+            <div class="system-status">
+                <div class="status-item">
+                    Serial: <span id="serial-status" class="disconnected">Disconnected</span>
+                </div>
+                <div class="status-item">
+                    Emergency: <span id="emergency-status">INACTIVE</span>
+                </div>
+                <div class="status-item">
+                    Braking: <span id="braking-status">INACTIVE</span>
+                </div>
+                <div class="status-item">
+                    ROS: <span id="ros-status" class="disconnected">Disconnected</span>
+                </div>
+                <div class="status-item">
+                    Simulation: <span id="simulation-status">INACTIVE</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="panel-header">Real-time Charts</div>
+            <div class="chart-container">
+                <canvas id="speedChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let speedChart;
+        let historyData = {
+            timestamps: [],
+            left_speed: [],
+            right_speed: [],
+            left_target: [],
+            right_target: [],
+            left_rpm: [],
+            right_rpm: []
+        };
+        
+        // Initialize charts
+        function initCharts() {
+            const ctx = document.getElementById('speedChart').getContext('2d');
+            speedChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Left Speed',
+                            data: [],
+                            borderColor: '#ff6464',
+                            backgroundColor: 'rgba(255, 100, 100, 0.1)',
+                            borderWidth: 2,
+                            fill: true
+                        },
+                        {
+                            label: 'Right Speed',
+                            data: [],
+                            borderColor: '#64ff64',
+                            backgroundColor: 'rgba(100, 255, 100, 0.1)',
+                            borderWidth: 2,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 255,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#dcdcdc'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#dcdcdc'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#dcdcdc'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update charts with new data
+        function updateCharts() {
+            if (speedChart) {
+                // Keep only the last 100 data points
+                const maxPoints = 100;
+                const startIdx = Math.max(0, historyData.timestamps.length - maxPoints);
+                
+                speedChart.data.labels = historyData.timestamps.slice(startIdx).map(ts => {
+                    const date = new Date(ts);
+                    return date.toLocaleTimeString();
+                });
+                
+                speedChart.data.datasets[0].data = historyData.left_speed.slice(startIdx);
+                speedChart.data.datasets[1].data = historyData.right_speed.slice(startIdx);
+                
+                speedChart.update();
+            }
+        }
+        
+        // Send command to server
+        function sendCommand(command, params = {}) {
+            fetch('/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({command, params})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error:', data.error);
+                    alert('Error: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending command');
+            });
+        }
+        
+        // Set motor speed
+        function setMotorSpeed(motor, speed) {
+            document.getElementById(`${motor}-speed-value`).textContent = speed;
+            sendCommand('speed', {[motor]: parseInt(speed)});
+        }
+        
+        // Set both motor speeds
+        function setBothSpeeds(speed) {
+            document.getElementById('both-speed-value').textContent = speed;
+            document.getElementById('left-speed-value').textContent = speed;
+            document.getElementById('right-speed-value').textContent = speed;
+            document.getElementById('left-speed-slider').value = speed;
+            document.getElementById('right-speed-slider').value = speed;
+            sendCommand('both_speed', {speed: parseInt(speed)});
+        }
+        
+        // Save data
+        function saveData() {
+            fetch('/save_data')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Data saved to ' + data.filename);
+                } else {
+                    alert('Error saving data: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving data');
+            });
+        }
+        
+        // Update UI with status data
+        function updateStatus(data) {
+            if (!data || data.error) return;
+            
+            // Update motor status
+            document.getElementById('left-speed').textContent = data.motors.left.speed;
+            document.getElementById('left-target').textContent = data.motors.left.target;
+            document.getElementById('left-rpm').textContent = data.motors.left.rpm.toFixed(1);
+            document.getElementById('left-direction').textContent = data.motors.left.direction;
+            document.getElementById('left-speed-bar').style.width = `${(data.motors.left.speed / 255) * 100}%`;
+            
+            document.getElementById('right-speed').textContent = data.motors.right.speed;
+            document.getElementById('right-target').textContent = data.motors.right.target;
+            document.getElementById('right-rpm').textContent = data.motors.right.rpm.toFixed(1);
+            document.getElementById('right-direction').textContent = data.motors.right.direction;
+            document.getElementById('right-speed-bar').style.width = `${(data.motors.right.speed / 255) * 100}%`;
+            
+            // Update system status
+            document.getElementById('serial-status').textContent = data.system.serial_connected ? 'Connected' : 'Disconnected';
+            document.getElementById('serial-status').className = data.system.serial_connected ? 'connected' : 'disconnected';
+            
+            document.getElementById('emergency-status').textContent = data.system.emergency_stop ? 'ACTIVE' : 'INACTIVE';
+            document.getElementById('emergency-status').className = data.system.emergency_stop ? 'emergency-active' : '';
+            
+            document.getElementById('braking-status').textContent = data.system.braking ? 'ACTIVE' : 'INACTIVE';
+            document.getElementById('ros-status').textContent = data.system.ros_connected ? 'Connected' : 'Disconnected';
+            document.getElementById('ros-status').className = data.system.ros_connected ? 'connected' : 'disconnected';
+            document.getElementById('simulation-status').textContent = data.system.simulation_mode ? 'ACTIVE' : 'INACTIVE';
+            
+            // Update connection status
+            document.getElementById('connection-status').textContent = data.system.serial_connected ? 'Connected' : 'Disconnected';
+            document.getElementById('connection-status').className = data.system.serial_connected ? 'connected' : 'disconnected';
+            
+            // Update timestamp
+            const timestamp = new Date(data.timestamp);
+            document.getElementById('timestamp').textContent = `Last Update: ${timestamp.toLocaleTimeString()}`;
+        }
+        
+        // Update history data
+        function updateHistory(data) {
+            if (!data || data.error) return;
+            
+            // Add new data points
+            const now = new Date().toISOString();
+            historyData.timestamps.push(now);
+            historyData.left_speed.push(data.motors.left.speed);
+            historyData.right_speed.push(data.motors.right.speed);
+            historyData.left_target.push(data.motors.left.target);
+            historyData.right_target.push(data.motors.right.target);
+            historyData.left_rpm.push(data.motors.left.rpm);
+            historyData.right_rpm.push(data.motors.right.rpm);
+            
+            // Keep data within limits
+            const maxHistory = 1000;
+            if (historyData.timestamps.length > maxHistory) {
+                historyData.timestamps.shift();
+                historyData.left_speed.shift();
+                historyData.right_speed.shift();
+                historyData.left_target.shift();
+                historyData.right_target.shift();
+                historyData.left_rpm.shift();
+                historyData.right_rpm.shift();
+            }
+            
+            // Update charts
+            updateCharts();
+        }
+        
+        // Poll for status updates
+        function pollStatus() {
+            fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                updateStatus(data);
+                return fetch('/history');
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateHistory(data);
+            })
+            .catch(error => {
+                console.error('Error fetching status:', error);
+            });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            // Poll for status every 500ms
+            setInterval(pollStatus, 500);
+        });
+    </script>
+</body>
+</html>

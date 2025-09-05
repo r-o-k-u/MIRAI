@@ -1,0 +1,565 @@
+2025-09-05 12:56:51,580 - serial_interface - WARNING - Serial connection attempt 1 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 12:56:51,580 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 12:56:51,584 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 12:56:51,585 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 12:56:55,679 - app - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/roku/Code/MIRAI/mirai-python-interface/src/app.py", line 17, in index
+    return render_template('index.html')
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2025-09-05 12:56:55,683 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:56:55] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-05 12:56:55,767 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:56:55] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-05 12:56:56,587 - serial_interface - WARNING - Serial connection attempt 2 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 12:56:56,587 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 12:57:01,602 - serial_interface - WARNING - Serial connection attempt 3 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 12:57:01,602 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 12:57:02,583 - serial_interface - INFO - Serial interface stopped
+2025-09-05 12:57:03,588 - serial_interface - INFO - Serial interface stopped
+2025-09-05 12:57:13,783 - __main__ - WARNING - Serial connection attempt 1 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:13,783 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:13,783 - __main__ - INFO - Motor controller started
+2025-09-05 12:57:13,787 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 12:57:13,787 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 12:57:16,219 - ui - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/roku/Code/MIRAI/mirai-python-interface/src/ui.py", line 453, in index
+    return render_template('index.html')
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2025-09-05 12:57:16,222 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:57:16] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-05 12:57:18,803 - __main__ - WARNING - Serial connection attempt 2 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:18,803 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:20,562 - ui - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/roku/Code/MIRAI/mirai-python-interface/src/ui.py", line 453, in index
+    return render_template('index.html')
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2025-09-05 12:57:20,563 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:57:20] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-05 12:57:23,821 - __main__ - WARNING - Serial connection attempt 3 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:23,821 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:28,837 - __main__ - WARNING - Serial connection attempt 4 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:28,838 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:31,987 - __main__ - WARNING - Serial connection attempt 5 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:31,987 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:37,003 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:37,004 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:42,017 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:42,017 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:47,037 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:47,038 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:52,055 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:52,056 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:57:57,073 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:57:57,073 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:58:00,058 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:58:00,157 - __main__ - ERROR - Serial connection failed after 5 attempts: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:58:00,157 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:58:00,168 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:58:00,169 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:58:00,169 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:58:04,151 - __main__ - WARNING - SIMULATION MODE: Serial connection disabled
+2025-09-05 12:58:04,151 - __main__ - INFO - Serial interface started
+2025-09-05 12:58:04,152 - __main__ - INFO - Motor controller started in simulation mode
+2025-09-05 12:58:04,156 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 12:58:04,156 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 12:58:07,237 - ui - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/roku/Code/MIRAI/mirai-python-interface/src/ui.py", line 453, in index
+    return render_template('index.html')
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2025-09-05 12:58:07,240 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:07] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-05 12:58:10,585 - ui - ERROR - Exception on / [GET]
+Traceback (most recent call last):
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/roku/Code/MIRAI/mirai-python-interface/src/ui.py", line 453, in index
+    return render_template('index.html')
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "/home/roku/.local/lib/python3.10/site-packages/jinja2/loaders.py", line 126, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 64, in get_source
+    return self._get_source_fast(environment, template)
+  File "/home/roku/.local/lib/python3.10/site-packages/flask/templating.py", line 98, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+2025-09-05 12:58:10,586 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:10] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-09-05 12:58:33,233 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:58:33,234 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:58:33,234 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:58:33,235 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:58:35,117 - __main__ - WARNING - SIMULATION MODE: Serial connection disabled
+2025-09-05 12:58:35,118 - __main__ - INFO - Serial interface started
+2025-09-05 12:58:35,118 - __main__ - INFO - Motor controller started in simulation mode
+2025-09-05 12:58:35,122 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 12:58:35,122 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 12:58:38,974 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:38] "GET / HTTP/1.1" 200 -
+2025-09-05 12:58:40,900 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:40] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:40,926 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:40] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:41,428 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:41] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:41,438 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:41] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:41,962 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:41] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:41,972 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:41] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:42,496 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:42] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:42,509 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:42] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:43,028 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:43] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:43,036 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:43] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:43,563 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:43] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:43,569 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:43] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:44,105 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:44] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:44,113 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:44] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:44,649 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:44] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:44,657 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:44] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:45,173 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:45] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:45,184 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:45] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:45,708 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:45] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:45,717 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:45] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:46,259 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:46] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:46,269 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:46] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:46,781 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:46] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:46,791 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:46] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:47,315 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:47] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:47,325 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:47] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:47,848 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:47] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:47,859 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:47] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:48,384 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:48] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:48,398 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:48] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:48,924 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:48] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:48,935 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:48] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:49,145 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:49] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:49,463 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:49,485 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:49,989 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:49,999 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:50,527 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:50] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:50,537 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:50] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:51,072 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:51] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:51,081 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:51] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:51,588 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:51] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:51,597 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:51] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:51,888 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:51] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:52,122 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:52] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:52,131 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:52] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:52,677 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:52] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:52,686 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:52] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:53,184 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:53,192 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:53,578 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:53,730 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:53,744 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:54,253 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:54,263 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:53,966 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:53,975 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:53,346 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:53,355 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:53,406 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:53,893 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:53,903 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:54,427 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:54,436 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:54,531 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:54,950 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:54,964 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:54] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:55,492 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:55] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:55,506 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:55] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:56,010 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:56] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:56,019 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:56] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:56,170 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:56] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:58:57,674 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:57] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:57,683 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:57] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:58,149 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:58] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:58,157 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:58] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:58,675 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:58] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:58,688 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:58] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:59,204 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:59] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:59,213 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:59] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:58:59,735 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:59] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:58:59,747 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:58:59] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:00,264 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:00] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:00,274 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:00] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:00,797 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:00] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:00,809 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:00] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:01,330 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:01] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:01,340 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:01] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:01,865 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:01] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:01,876 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:01] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:02,398 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:02] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:02,407 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:02] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:02,929 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:02] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:02,938 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:02] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:03,464 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:03] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:03,478 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:03] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:03,996 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:03] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:04,005 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:04] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:04,539 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:04] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:04,549 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:04] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:05,073 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:05] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:05,083 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:05] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:05,602 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:05] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:05,618 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:05] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:06,136 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:06] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:06,149 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:06] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:06,658 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:06] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:06,667 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:06] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:07,192 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:07] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:07,200 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:07] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:07,739 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:07] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:07,749 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:07] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:07,938 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:07] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:08,260 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:08] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:08,269 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:08] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:08,795 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:08] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:08,804 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:08] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:09,338 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:09] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:09,349 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:09] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:09,869 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:09] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:09,884 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:09] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:10,407 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:10] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:10,418 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:10] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:10,941 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:10] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:10,952 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:10] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:11,476 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:11] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:11,486 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:11] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:12,008 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:12] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:12,018 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:12] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:12,545 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:12] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:12,554 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:12] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:13,075 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:13] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:13,090 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:13] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:13,611 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:13] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:13,621 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:13] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:14,142 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:14] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:14,152 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:14] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:14,673 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:14] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:14,687 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:14] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:15,204 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:15] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:15,215 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:15] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:15,455 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:15] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:15,755 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:15] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:15,765 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:15] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:16,280 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:16] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:16,298 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:16] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:16,818 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:16] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:16,827 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:16] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:17,352 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:17] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:17,369 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:17] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:17,879 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:17] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:17,892 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:17] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:18,431 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:18] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:18,440 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:18] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:18,952 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:18] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:18,968 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:18] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:19,485 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:19] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:19,494 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:19] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:19,671 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:19] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:20,020 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:20,031 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:20,462 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:20,555 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:20,565 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:20,867 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:20] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:21,093 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:21,103 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:21,431 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:21,630 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:21,641 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:22,161 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:22,170 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:22,417 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:21,954 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:21,963 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:21,352 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:21,363 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:21,888 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:21,899 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:21] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:22,430 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:22,446 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:22,682 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "POST /command HTTP/1.1" 200 -
+2025-09-05 12:59:22,961 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:22,972 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:22] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:23,499 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:23] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:23,515 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:23] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:24,029 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:24] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:24,041 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:24] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:24,274 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:24] "GET /save_data HTTP/1.1" 200 -
+2025-09-05 12:59:25,799 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:25] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:25,809 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:25] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:26,157 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:26] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:26,167 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:26] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:26,682 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:26] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:26,692 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:26] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:27,226 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:27] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:27,240 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:27] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:27,762 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:27] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:27,772 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:27] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:28,280 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:28] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:28,291 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:28] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:28,814 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:28] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:28,830 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:28] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:29,346 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:29] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:29,357 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:29] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:29,878 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:29] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:29,896 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:29] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:30,410 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:30] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:30,421 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:30] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:30,959 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:30] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:30,970 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:30] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:31,477 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:31] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:31,488 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:31] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:32,016 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:32] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:32,030 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:32] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:32,553 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:32] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:32,564 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:32] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:34,025 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:34] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:34,026 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:34,030 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:59:34,031 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:34,031 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:59:38,246 - __main__ - WARNING - Serial connection attempt 1 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:59:38,247 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:59:38,247 - __main__ - INFO - Motor controller started
+2025-09-05 12:59:38,250 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 12:59:38,251 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 12:59:38,670 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:38] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:38,677 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:38] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:38,681 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:38] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:38,690 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:38] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:39,398 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:39] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:39,406 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:39] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:40,466 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:40] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:40,474 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:40] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:41,363 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:41] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:41,372 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:41] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:41,668 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:41] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:41,677 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:41] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:42,198 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:42] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:42,206 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:42] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:42,741 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:42] "GET / HTTP/1.1" 200 -
+2025-09-05 12:59:42,743 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:42] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:43,255 - __main__ - WARNING - Serial connection attempt 2 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:59:43,256 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:59:43,536 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:43] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:43,544 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:43] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:44,061 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:44] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:44,068 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:44] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:44,603 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:44] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:44,614 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:44] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:45,136 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:45] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:45,147 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:45] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:45,676 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:45] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:45,685 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:45] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:46,211 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:46] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:46,219 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:46] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:46,734 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:46] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:46,743 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:46] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:47,265 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:47] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:47,275 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:47] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:47,809 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:47] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:47,818 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:47] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:48,292 - __main__ - WARNING - Serial connection attempt 3 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:59:48,292 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:59:48,338 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:48] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:48,347 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:48] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:48,868 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:48] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:48,877 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:48] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:49,402 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:49,410 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:49,930 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:49,943 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:50,484 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:50,494 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:49,089 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:49,111 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:49,615 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:49,627 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:49] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:50,154 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:50,163 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:50,676 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:50,685 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:50] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:51,215 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:51] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:51,224 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:51] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:51,393 - __main__ - WARNING - Serial connection attempt 4 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:59:51,393 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:59:51,751 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:51] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:51,764 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:51] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:52,274 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:52] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:52,284 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:52] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:52,804 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:52] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:52,817 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:52] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:53,342 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:53,351 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:53,866 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:53] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:53,875 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:53] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:54,397 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:54] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:54,406 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:54] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:54,928 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:54] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:54,936 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:54] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:55,470 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:55] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:55,484 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:55] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:56,409 - __main__ - WARNING - Serial connection attempt 5 failed: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+2025-09-05 12:59:56,410 - __main__ - ERROR - Failed to start serial interface
+2025-09-05 12:59:56,669 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:56] "GET /status HTTP/1.1" 200 -
+2025-09-05 12:59:56,678 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 12:59:56] "GET /history HTTP/1.1" 200 -
+2025-09-05 12:59:56,750 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:57,752 - __main__ - INFO - Motor controller stopped
+2025-09-05 12:59:57,752 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:58,045 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:58,940 - __main__ - INFO - Serial interface stopped
+2025-09-05 12:59:59,440 - __main__ - INFO - Serial interface stopped
+2025-09-05 13:00:00,487 - __main__ - INFO - Motor controller stopped
+2025-09-05 13:00:06,903 - serial_interface - WARNING - Serial connection attempt 1 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 13:00:06,903 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 13:00:06,907 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-09-05 13:00:06,907 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-05 13:00:07,985 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:07] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:07,994 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:07] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:08,409 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:08] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:08,418 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:08] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:09,478 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:09] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:09,486 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:09] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:10,476 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:10] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:10,485 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:10] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:10,935 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:10] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:10,944 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:10] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:11,459 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:11] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:11,468 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:11] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:11,628 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:11] "GET / HTTP/1.1" 200 -
+2025-09-05 13:00:11,910 - serial_interface - WARNING - Serial connection attempt 2 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 13:00:11,910 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 13:00:12,383 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:12] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:12,392 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:12] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:12,731 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:12] "GET / HTTP/1.1" 200 -
+2025-09-05 13:00:13,315 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:13] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:13,326 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:13] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:13,864 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:13] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:13,877 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:13] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:14,399 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:14] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:14,407 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:14] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:14,927 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:14] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:14,938 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:14] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:15,464 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:15] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:15,472 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:15] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:15,994 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:15] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:16,001 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:16] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:16,527 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:16] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:16,536 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:16] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:16,944 - serial_interface - WARNING - Serial connection attempt 3 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 13:00:16,944 - serial_interface - ERROR - Failed to start serial interface
+2025-09-05 13:00:17,059 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:17] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:17,066 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:17] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:17,606 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:17] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:17,615 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:17] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:18,135 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:18] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:18,148 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:18] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:18,670 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:18] "GET /status HTTP/1.1" 200 -
+2025-09-05 13:00:18,679 - werkzeug - INFO - 127.0.0.1 - - [05/Sep/2025 13:00:18] "GET /history HTTP/1.1" 200 -
+2025-09-05 13:00:18,123 - serial_interface - INFO - Serial interface stopped
+2025-09-05 13:00:19,138 - serial_interface - INFO - Serial interface stopped
+2025-09-05 13:00:20,085 - serial_interface - WARNING - Serial connection attempt 4 failed: [Errno 2] could not open port COM3: [Errno 2] No such file or directory: 'COM3'
+2025-09-05 13:00:20,086 - serial_interface - ERROR - Failed to start serial interface
